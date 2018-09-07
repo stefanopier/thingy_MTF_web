@@ -33,9 +33,6 @@ class Motion extends React.Component {
 
   componentWillReceiveProps(np) {
 
-
-  console.log("**************", np);
-
     if (np.characteristics.pedometer !== this.state.characteristics.pedometer) {
       this.setState((ps) => {
         return {

@@ -37,7 +37,7 @@ udp.on("ready", function () {
 
 setInterval(function () {
     sendOSC();
-}, 100); // 7.5ms
+}, 10); // 7.5ms
 
 
 function sendOSC() {
