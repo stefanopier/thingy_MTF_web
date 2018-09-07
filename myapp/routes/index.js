@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var osc = require("osc");
 
+var quaternion = {};
 var osc_data = {};
 var isSend = false;
 
@@ -12,10 +13,11 @@ router.get('/', function(req, res, next) {
 
 router.get('/data', function(req, res, next) {
     osc_data.heading = (typeof req.query.heading !== "undefined") ? req.query.heading : osc_data.heading;
-    osc_data.x = (typeof req.query.x !== "undefined") ? req.query.x : osc_data.x;
-    osc_data.y = (typeof req.query.y !== "undefined") ? req.query.y : osc_data.y;
-    osc_data.z = (typeof req.query.w !== "undefined") ? req.query.w : osc_data.w;
-    osc_data.w = (typeof req.query.z !== "undefined") ? req.query.z : osc_data.z;
+    quaternion.x = (typeof req.query.x !== "undefined") ? req.query.x : quaternion.x;
+    quaternion.y = (typeof req.query.y !== "undefined") ? req.query.y : quaternion.y;
+    quaternion.z = (typeof req.query.w !== "undefined") ? req.query.w : quaternion.w;
+    quaternion.w = (typeof req.query.z !== "undefined") ? req.query.z : quaternion.z;
+    quaternionToEulerAngle()
     res.send("ok");
 });
 
@@ -44,21 +46,53 @@ function sendOSC() {
         args: [osc_data.heading]
     });
     udp.send({
-        address: "/thingy/x",
+        address: "/thingy/roll",
         args: [osc_data.x]
     });
     udp.send({
-        address: "/thingy/y",
+        address: "/thingy/pitch",
         args: [osc_data.y]
     });
     udp.send({
-        address: "/thingy/z",
+        address: "/thingy/yaw",
         args: [osc_data.z]
     });
     udp.send({
-        address: "/thingy/w",
-        args: [osc_data.w]
+        address: "/thingy/quaternionX",
+        args: [quaternion.x]
+    });
+    udp.send({
+        address: "/thingy/quaternionY",
+        args: [quaternion.y]
+    });
+    udp.send({
+        address: "/thingy/quaternionZ",
+        args: [quaternion.z]
+    });
+    udp.send({
+        address: "/thingy/quaternionW",
+        args: [quaternion.w]
     });
 }
+
+function quaternionToEulerAngle() {
+
+    let t0 = 2.0 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z);
+    let t1 = 1.0 - 2.0 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y);
+    osc_data.x = (Math.atan2(t0, t1)) * 180 / Math.PI;
+  
+    let t2 = 2.0 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
+      if(t2 > 1.0) {
+      t2 = 1.0;
+    } else if(t2 < -1.0){
+        t2 = -1.0;
+    }
+    osc_data.y = (Math.asin(t2)) * 180 / Math.PI; // pitch
+  
+    let t3 = 2.0 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y);
+    let t4 = 1.0 - 2.0 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z);
+    osc_data.z = (Math.atan2(t3, t4)) * 180 / Math.PI; //yaw
+}
+  
 
 module.exports = router;

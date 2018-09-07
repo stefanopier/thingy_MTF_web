@@ -55,8 +55,11 @@ npm start
 
 ### OSC data are sent locally on port 30200
 ### OSC paths:
-        address: "/thingy/heading",
-        address: "/thingy/x",
-        address: "/thingy/y",
-        address: "/thingy/z",
-        address: "/thingy/w",
+        address: "/thingy/heading"
+        address: "/thingy/roll"
+        address: "/thingy/pitch" 
+        address: "/thingy/yaw"
+        address: "/thingy/quaternionX"
+        address: "/thingy/quaternionY"
+        address: "/thingy/quaternionZ"
+        address: "/thingy/quaternionW"
