@@ -53,4 +53,10 @@ then start on another terminal
 npm start
 ```
 
-### OSC data are sent locally on port 30200 
+### OSC data are sent locally on port 30200
+### OSC paths:
+        address: "/thingy/heading",
+        address: "/thingy/x",
+        address: "/thingy/y",
+        address: "/thingy/z",
+        address: "/thingy/w",
