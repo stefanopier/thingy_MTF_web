@@ -17,7 +17,16 @@ router.get('/data', function(req, res, next) {
     quaternion.y = (typeof req.query.y !== "undefined") ? req.query.y : quaternion.y;
     quaternion.z = (typeof req.query.w !== "undefined") ? req.query.w : quaternion.w;
     quaternion.w = (typeof req.query.z !== "undefined") ? req.query.z : quaternion.z;
-    quaternionToEulerAngle()
+    quaternionToEulerAngle();
+    osc_data.direction = (typeof req.query.direction !== "undefined") ? req.query.direction : osc_data.direction;
+    osc_data.count = (typeof req.query.count !== "undefined") ? req.query.count : osc_data.count;
+    osc_data.temperature = (typeof req.query.temperature !== "undefined") ? req.query.temperature : osc_data.temperature;
+    osc_data.pressure = (typeof req.query.pressure !== "undefined") ? req.query.pressure : osc_data.pressure;
+    osc_data.co2 = (typeof req.query.co2 !== "undefined") ? req.query.co2 : osc_data.co2;
+    osc_data.tvoc = (typeof req.query.tvoc !== "undefined") ? req.query.tvoc : osc_data.tvoc;
+    osc_data.humidity = (typeof req.query.humidity !== "undefined") ? req.query.humidity : osc_data.humidity;
+    osc_data.color = (typeof req.query.color !== "undefined") ? req.query.color : osc_data.color;
+
     res.send("ok");
 });
 
@@ -72,6 +81,38 @@ function sendOSC() {
     udp.send({
         address: "/thingy/quaternionW",
         args: [quaternion.w]
+    });
+    udp.send({
+        address: "/thingy/temperature",
+        args: [osc_data.temperature]
+    });
+    udp.send({
+        address: "/thingy/pressure",
+        args: [osc_data.pressure]
+    });
+    udp.send({
+        address: "/thingy/co2",
+        args: [osc_data.co2]
+    });
+    udp.send({
+        address: "/thingy/tvoc",
+        args: [osc_data.tvoc]
+    });
+    udp.send({
+        address: "/thingy/humidity",
+        args: [osc_data.humidity]
+    });
+    udp.send({
+        address: "/thingy/colorR",
+        args: [osc_data.colorR]
+    });
+    udp.send({
+        address: "/thingy/colorG",
+        args: [osc_data.colorG]
+    });
+    udp.send({
+        address: "/thingy/colorB",
+        args: [osc_data.colorB]
     });
 }
 

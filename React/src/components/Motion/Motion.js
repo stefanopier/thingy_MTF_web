@@ -1,6 +1,6 @@
 import React from "react";
-import {Card, CardStandardCodeView} from "../Common/Common";
-import {CardHeadingView, CardTapView, CardPedometerView, Card3DView} from "./MotionCards";
+import { Card, CardStandardCodeView } from "../Common/Common";
+import { CardHeadingView, CardTapView, CardPedometerView, Card3DView } from "./MotionCards";
 import "./styles.css";
 
 class Motion extends React.Component {
@@ -47,6 +47,26 @@ class Motion extends React.Component {
 
     if (np.characteristics.tap !== this.state.characteristics.tap) {
       this.setState((ps) => {
+
+        // HACK
+        // 1 back
+        // 2 front
+        // 4 right
+        // 3 left
+        // 5 top
+        // 6 up
+        let value = parseInt(np.characteristics.tap.reading.direction);
+        let str = "http://127.0.0.1:3001/data?direction=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+        value = parseInt(np.characteristics.tap.reading.count);
+        str = "http://127.0.0.1:3001/data?count=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+  
+        
         return {
           ...ps,
           characteristics: {
@@ -63,9 +83,9 @@ class Motion extends React.Component {
         // HACK
         let value = parseFloat(np.characteristics.heading.reading.heading.toFixed(2));
         let str = "http://127.0.0.1:3001/data?heading=" + value + "";
-        fetch(str, { method: 'GET',  mode: 'no-cors'})
-        .then(response =>{})
-        .catch(err =>{});
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
 
         return {
           ...ps,
@@ -90,30 +110,28 @@ class Motion extends React.Component {
         let y = parseFloat(np.characteristics.orientation.reading.y.toFixed(2));
         let w = parseFloat(np.characteristics.orientation.reading.w.toFixed(2));
         let z = parseFloat(np.characteristics.orientation.reading.z.toFixed(2));
-        
+
         let strX = "http://127.0.0.1:3001/data?x=" + x + "";
         let strY = "http://127.0.0.1:3001/data?y=" + y + "";
         let strW = "http://127.0.0.1:3001/data?w=" + w + "";
         let strZ = "http://127.0.0.1:3001/data?z=" + z + "";
 
-        fetch(strX, { method: 'GET',  mode: 'no-cors'})
-        .then(response =>{})
-        .catch(err =>{});
+        fetch(strX, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
 
-        fetch(strY, { method: 'GET',  mode: 'no-cors'})
-        .then(response =>{})
-        .catch(err =>{});
+        fetch(strY, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
 
-        fetch(strW, { method: 'GET',  mode: 'no-cors'})
-        .then(response =>{})
-        .catch(err =>{});
+        fetch(strW, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
 
-        fetch(strZ, { method: 'GET',  mode: 'no-cors'})
-        .then(response =>{})
-        .catch(err =>{});
-
-
-
+        fetch(strZ, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+          
 
         return {
           ...ps,

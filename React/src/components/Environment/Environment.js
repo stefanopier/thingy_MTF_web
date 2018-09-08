@@ -29,30 +29,82 @@ class Environment extends React.Component {
 
   componentWillReceiveProps(np) {
     if (np.temperature !== this.state.temperature) {
+
+      // HACK
+      if (typeof np.temperature.reading !== 'undefined') {
+        let value = parseFloat(np.temperature.reading.value).toFixed(2);
+        let str = "http://127.0.0.1:3001/data?temperature=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+      }
+
+
       this.setState({
         temperature: np.temperature,
       });
     }
 
     if (np.pressure !== this.state.pressure) {
+      
+      // HACK
+      if (typeof np.pressure.reading !== 'undefined') {
+        let value = parseFloat(np.pressure.reading.value).toFixed(2);
+        let str = "http://127.0.0.1:3001/data?pressure=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+      }
+
+      
       this.setState({
         pressure: np.pressure,
       });
     }
 
     if (np.co2 !== this.state.co2) {
+
+      // HACK
+      if (typeof np.co2.reading !== 'undefined') {
+        let value = parseInt(np.co2.reading.value);
+        let str = "http://127.0.0.1:3001/data?co2=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+      }
+        
       this.setState({
         co2: np.co2,
       });
     }
 
     if (np.tvoc !== this.state.tvoc) {
+  
+      // HACK
+      if (typeof np.tvoc.reading !== 'undefined') {
+        let value = parseInt(np.tvoc.reading.value);
+        let str = "http://127.0.0.1:3001/data?tvoc=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+      }
+      
       this.setState({
         tvoc: np.tvoc,
       });
     }
 
     if (np.humidity !== this.state.humidity) {
+
+      // HACK
+      if (typeof np.humidity.reading !== 'undefined') {
+        let value = parseInt(np.humidity.reading.value);
+        let str = "http://127.0.0.1:3001/data?humidity=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+      }
+
       this.setState({
         humidity: np.humidity,
       });
@@ -60,6 +112,29 @@ class Environment extends React.Component {
 
 
     if (np.color !== this.state.color) {
+      
+      // HACK
+      if (typeof np.color.reading !== 'undefined') {
+        let value = np.color.reading.red;
+        let str = "http://127.0.0.1:3001/data?colorR=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+
+        value = np.color.reading.green;
+        str = "http://127.0.0.1:3001/data?colorG=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+
+        value = np.color.reading.blue;
+        str = "http://127.0.0.1:3001/data?colorB=" + value + "";
+        fetch(str, { method: 'GET', mode: 'no-cors' })
+          .then(response => { })
+          .catch(err => { });
+          
+      }
+
       this.setState({
         color: np.color,
       });
