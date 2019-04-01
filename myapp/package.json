@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "quiet": "node ./bin/www 0",
+    "verbose": "node ./bin/www 1"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
+    "morgan": "^1.9.1",
     "osc": "^2.2.4",
-    "pug": "2.0.0-beta11"
+    "pug": "^2.0.3"
   }
 }

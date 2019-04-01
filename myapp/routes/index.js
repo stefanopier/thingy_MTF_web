@@ -1,17 +1,18 @@
-var express = require('express');
-var router = express.Router();
-var osc = require("osc");
+const express = require('express');
+const router = express.Router();
+const osc = require("osc");
 
-var quaternion = {};
-var osc_data = {};
-var isSend = false;
+const quaternion = {};
+const osc_data = {};
+let isSend = false;
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', function (req, res, next) {
+    res.render('index', { title: 'Express' });
 });
 
-router.get('/data', function(req, res, next) {
+router.get('/data', function (req, res, next) {
     osc_data.heading = (typeof req.query.heading !== "undefined") ? req.query.heading : osc_data.heading;
     quaternion.x = (typeof req.query.x !== "undefined") ? req.query.x : quaternion.x;
     quaternion.y = (typeof req.query.y !== "undefined") ? req.query.y : quaternion.y;
@@ -27,10 +28,12 @@ router.get('/data', function(req, res, next) {
     osc_data.humidity = (typeof req.query.humidity !== "undefined") ? req.query.humidity : osc_data.humidity;
     osc_data.color = (typeof req.query.color !== "undefined") ? req.query.color : osc_data.color;
 
-    res.send("ok");
+    if (req.app.get('restLog') == 1) {
+        res.send("ok");
+    }
 });
 
-var udp = new osc.UDPPort({
+const udp = new osc.UDPPort({
     localAddress: "0.0.0.0",
     localPort: 5000, // not receiving, but here's a port anyway
     remoteAddress: "127.0.0.1",
@@ -121,19 +124,19 @@ function quaternionToEulerAngle() {
     let t0 = 2.0 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z);
     let t1 = 1.0 - 2.0 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y);
     osc_data.x = (Math.atan2(t0, t1)) * 180 / Math.PI;
-  
+
     let t2 = 2.0 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
-      if(t2 > 1.0) {
-      t2 = 1.0;
-    } else if(t2 < -1.0){
+    if (t2 > 1.0) {
+        t2 = 1.0;
+    } else if (t2 < -1.0) {
         t2 = -1.0;
     }
     osc_data.y = (Math.asin(t2)) * 180 / Math.PI; // pitch
-  
+
     let t3 = 2.0 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y);
     let t4 = 1.0 - 2.0 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z);
     osc_data.z = (Math.atan2(t3, t4)) * 180 / Math.PI; //yaw
 }
-  
+
 
 module.exports = router;
